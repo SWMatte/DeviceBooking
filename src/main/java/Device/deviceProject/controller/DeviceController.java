@@ -33,8 +33,8 @@ public class DeviceController {
     @GetMapping("/device")
     public ResponseEntity<Object> getAll(   ) {
         try {
-            deviceService.findAll();
-            return ResponseHandler.generateMessage("ok", HttpStatus.OK);
+            return ResponseHandler.generateResponse("ok", HttpStatus.OK, deviceService.findAll());
+
         } catch (Exception e) {
             return ResponseHandler.generateMessage("No", HttpStatus.BAD_REQUEST);
 

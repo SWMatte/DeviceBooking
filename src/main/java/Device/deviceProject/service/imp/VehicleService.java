@@ -1,5 +1,6 @@
 package Device.deviceProject.service.imp;
 
+import Device.deviceProject.DTO.VehicleDTO;
 import Device.deviceProject.models.ClientSub;
 import Device.deviceProject.models.LogisticClient;
 import Device.deviceProject.models.Subscription;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VehicleService implements iService<Vehicle> {
@@ -23,6 +25,25 @@ public class VehicleService implements iService<Vehicle> {
     ClientSubRepository clientSubRepository;
     @Autowired
     SubscriptionRepository subscriptionRepository;
+
+    @Autowired
+    LogisticClientRepository logisticClientRepository;
+
+
+
+    public List<VehicleDTO> getAll() {
+        List<Vehicle> listaVeicoli = vehicleRepository.findAll();
+
+       List<VehicleDTO> veicoliDTO= listaVeicoli.stream().map(
+                vehicle -> {
+                    LogisticClient azienda= logisticClientRepository.findById(vehicle.getLogisticCompany().getIdLogistic()).orElseThrow();
+                    return new VehicleDTO(vehicle.getIdVehicle(), vehicle.getNameVehicle(), vehicle.getPlate(), vehicle.getAssicuration(), vehicle.getStatusExpirated(), azienda, vehicle.getSubscriptionAssociated());
+                }
+        ).collect(Collectors.toList());
+
+        return veicoliDTO;
+
+    }
 
     @Override
     public List<Vehicle> findAll() {
@@ -70,14 +91,8 @@ public class VehicleService implements iService<Vehicle> {
 
     }
 
-    public void vehicleActive(int subAssociatedToVehicle) {
-        Subscription subscriptionAssociated = subscriptionRepository.findById(subAssociatedToVehicle).orElseThrow();
-        Vehicle vehicle = vehicleRepository.findBySubscriptionAssociated(subAssociatedToVehicle);
-        if (subscriptionAssociated.isAvailable() == false) {
-            System.out.println("Device scaduto");
-            vehicleRepository.updateSubscriptionExpirated("EXPIRED", vehicle.getIdVehicle());
-        }
-
+    public List<Vehicle> vehicleActive( ) {
+        return vehicleRepository.findAll().stream().filter(vehicle -> vehicle.getStatusExpirated().equals("ACTIVE")).collect(Collectors.toList());
 
     }
 

@@ -29,7 +29,7 @@ public class SubscriptionService implements iService<Subscription> {
 
     @Override
     public List<Subscription> findAll() {
-        return null;
+        return subscriptionRepository.findAll();
     }
 
     @Override
@@ -71,22 +71,20 @@ public class SubscriptionService implements iService<Subscription> {
 
     }
     public void expiredSubscription() {
+        // filter subscription for not available anymore
         List<Subscription> subExpired = subscriptionRepository.findAll()
                 .stream()
                 .filter(subscription -> subscription.getDateActivation()!=null && subscription.getDateFinish()!=null)
                 .filter(sub -> sub.getDateActivation().isAfter(sub.getDateFinish()) && sub.isAvailable())
                 .collect(Collectors.toList());
 
-
+        // for each subscription not available updated the other tables device,clientSub,subscription and vehicle
         subExpired.forEach(x ->{
             deviceRepository.updateAssociated(false,x.getDevice().getIdDevice());
             clientSubRepository.updateStatus("EXPIRATED",x.getIdSubscription());
             subscriptionRepository.updateAvailableAndDevice(false,null,x.getIdSubscription());
             vehicleRepository.updateSubscriptionExpirated("EXPIRATED",x.getIdSubscription());
         } );
-
-
-
 
     }
 }

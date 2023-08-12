@@ -1,5 +1,6 @@
 package Device.deviceProject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,10 +10,11 @@ public class ClientSub {
     private int id;
 
     @ManyToOne( )
+
     @JoinColumn(name = "idLogistic")
     private LogisticClient idCompany;
 
-    @ManyToOne( )
+    @ManyToOne()
     @JoinColumn(name = "idSubscription")
     private Subscription idSub;
 

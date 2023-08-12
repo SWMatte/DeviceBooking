@@ -38,7 +38,6 @@ public class LogisticClientService implements iService<LogisticClient> {
         LogisticClient existingCompany = logisticClientRepository.findByCfLogistic(element.getCfLogistic()); // if company already exist use the company on the DB
 
         if (existingCompany != null) {
-            // List<Subscription> listSubscription = element.getListSubscription().stream().map(x -> subscriptionRepository.findById(x.getIdSubscription()).orElseThrow()).collect(Collectors.toList());
 
             List<Subscription> listSubscription = element.getListSubscription().stream().map(x -> subscriptionRepository.findById(x.getIdSubscription()).orElseThrow()).filter(sub->sub.isAvailable()).collect(Collectors.toList());
 
@@ -46,7 +45,7 @@ public class LogisticClientService implements iService<LogisticClient> {
                 System.out.println("GLI ABBONAMENTI NON SONO ASSEGNABILI");
             } else {
 
-                existingCompany.getListSubscrition().addAll(listSubscription);
+                existingCompany.getListSubscription().addAll(listSubscription);
             }
 
             listSubscription.forEach(sub -> {   // for each subscription in according to the duration set the date activation and finish

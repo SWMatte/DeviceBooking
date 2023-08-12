@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class VehicleController {
 
@@ -32,18 +34,17 @@ public class VehicleController {
     @GetMapping("/vehicle")
     public ResponseEntity<Object> getAll(   ) {
         try {
-            IvehicleiService.findAll();
-            return ResponseHandler.generateMessage("ok", HttpStatus.OK);
+            return ResponseHandler.generateResponse("ok", HttpStatus.OK,vehicleService.getAll());
         } catch (Exception e) {
             return ResponseHandler.generateMessage("No", HttpStatus.BAD_REQUEST);
 
         }
     }
 
-    @GetMapping("/vehicleExpired")
-    public void  isExpired(@RequestParam("idVehicle") int idVehicle) {
+    @GetMapping("/vehicleActive")
+    public List<Vehicle> vehicleActive() {
 
-        vehicleService.vehicleActive(idVehicle);
+       return vehicleService.vehicleActive();
 
     }
 

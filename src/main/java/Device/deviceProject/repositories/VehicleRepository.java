@@ -15,6 +15,6 @@ public interface VehicleRepository extends JpaRepository<Vehicle,Integer> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE Vehicle u SET u.subscriptionExpirated=?1  WHERE u.subscriptionAssociated=?2")
-    public void updateSubscriptionExpirated ( String subscriptionExpirated ,int subscriptionAssociated);
+    @Query("UPDATE Vehicle u SET u.statusExpirated=?1  WHERE u.subscriptionAssociated=?2")
+    public void updateSubscriptionExpirated ( String statusExpirated ,int subscriptionAssociated);
 }

@@ -2,9 +2,9 @@ package Device.deviceProject.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+
 
 import java.util.List;
 
@@ -17,12 +17,13 @@ public class LogisticClient {
     private String name;
     private String cfLogistic;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
-     @JoinTable(name = "clientLogistic_subscription",
-            joinColumns = @JoinColumn(name = "idLogistic", referencedColumnName = "idLogistic"),
-            inverseJoinColumns = @JoinColumn(name = "idSubscription",referencedColumnName = "idSubscription"))
-     private List<Subscription> listSubscription;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinTable(name = "clientLogistic_subscription",
+            joinColumns = @JoinColumn(name = "idLogistic", referencedColumnName = "idLogistic"),
+            inverseJoinColumns = @JoinColumn(name = "idSubscription", referencedColumnName = "idSubscription"))
+    private List<Subscription> listSubscription;
 
 
     @JsonIgnore
@@ -30,9 +31,8 @@ public class LogisticClient {
     private List<Vehicle> vehicles;
 
 
-
     @JsonIgnore
-    @OneToMany(mappedBy = "idCompany" )
+    @OneToMany(mappedBy = "idCompany")
     private List<ClientSub> subscriptionAssigned;
 
 
@@ -60,9 +60,6 @@ public class LogisticClient {
         this.cfLogistic = cfLogistic;
     }
 
-    public List<Subscription> getListSubscrition() {
-        return listSubscription;
-    }
 
     public void setListSubscrition(List<Subscription> listSubscrition) {
         this.listSubscription = listSubscrition;
@@ -86,11 +83,5 @@ public class LogisticClient {
 
     }
 
-    public List<ClientSub> getSubscriptionAssigned() {
-        return subscriptionAssigned;
-    }
 
-    public void setSubscriptionAssigned(List<ClientSub> subscriptionAssigned) {
-        this.subscriptionAssigned = subscriptionAssigned;
-    }
 }

@@ -24,8 +24,6 @@ public class SubscriptionController {
     public ResponseEntity<Object> add(@RequestBody Subscription element) {
         try {
             abbonamentoService.add(element);
-
-
             return ResponseHandler.generateMessage("ok", HttpStatus.OK);
         } catch (Exception e) {
             return ResponseHandler.generateMessage(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -36,8 +34,7 @@ public class SubscriptionController {
     @GetMapping("/subscription")
     public ResponseEntity<Object> getAll(   ) {
         try {
-            abbonamentoService.findAll();
-            return ResponseHandler.generateMessage("ok", HttpStatus.OK);
+            return ResponseHandler.generateResponse("ok", HttpStatus.OK, abbonamentoService.findAll());
         } catch (Exception e) {
             return ResponseHandler.generateMessage("No", HttpStatus.BAD_REQUEST);
 

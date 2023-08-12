@@ -2,6 +2,7 @@ package Device.deviceProject.repositories;
 
 import Device.deviceProject.models.ClientSub;
 import Device.deviceProject.models.Subscription;
+import ch.qos.logback.core.net.server.Client;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -27,5 +28,11 @@ public interface ClientSubRepository extends JpaRepository<ClientSub,Integer> {
     @Modifying
     @Query("UPDATE ClientSub u SET u.status=?1 WHERE u.idSub.idSubscription=?2")
     public void updateStatus(String status, int idSubscription);
+
+    @Query(value = """
+            SELECT * FROM client_sub
+            Inner join logistic_client using(id_logistic)
+            inner join subscription using(id_subscription);""",nativeQuery = true)
+    List<ClientSub> trovaTutto();
 
 }

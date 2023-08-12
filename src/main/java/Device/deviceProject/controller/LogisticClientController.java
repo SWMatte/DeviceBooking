@@ -19,19 +19,16 @@ public class LogisticClientController {
 
     @PostMapping("/client")
     public void add(@RequestBody LogisticClient element) throws Exception {
-
              clientiService.add(element);
-
     }
+
 
     @GetMapping("/client")
     public ResponseEntity<Object> getAll(   ) {
         try {
-            clientiService.findAll();
-            return ResponseHandler.generateMessage("ok", HttpStatus.OK);
+            return ResponseHandler.generateResponse("ok", HttpStatus.OK,clientiService.findAll());
         } catch (Exception e) {
             return ResponseHandler.generateMessage("No", HttpStatus.BAD_REQUEST);
-
         }
     }
 

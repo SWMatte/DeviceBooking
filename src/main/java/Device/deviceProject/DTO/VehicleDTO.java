@@ -1,28 +1,41 @@
-package Device.deviceProject.models;
+package Device.deviceProject.DTO;
 
-import jakarta.persistence.*;
+import Device.deviceProject.models.LogisticClient;
+import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 import java.time.LocalDate;
 
-@Entity
-public class Vehicle {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idVehicle;
+public class VehicleDTO {
 
+    private int idVehicle;
     private String nameVehicle;
-    @Column(unique = true)
+
     private String plate;
 
-    private LocalDate assicuration; // sara' poi un entita' ? per gestire le revisioni
+    private LocalDate assicuration;
 
     private String statusExpirated;
 
-    @ManyToOne( )
-    @JoinColumn(name = "idLogistic")
     private LogisticClient logisticCompany;
 
     private int subscriptionAssociated;
+
+
+    public VehicleDTO() {
+    }
+
+    public VehicleDTO(int idVehicle, String nameVehicle, String plate, LocalDate assicuration, String statusExpirated, LogisticClient logisticCompany, int subscriptionAssociated) {
+        this.idVehicle = idVehicle;
+        this.nameVehicle = nameVehicle;
+        this.plate = plate;
+        this.assicuration = assicuration;
+        this.statusExpirated = statusExpirated;
+        this.logisticCompany = logisticCompany;
+        this.subscriptionAssociated = subscriptionAssociated;
+    }
+
 
     public int getIdVehicle() {
         return idVehicle;
@@ -56,6 +69,14 @@ public class Vehicle {
         this.assicuration = assicuration;
     }
 
+    public String getStatusExpirated() {
+        return statusExpirated;
+    }
+
+    public void setStatusExpirated(String statusExpirated) {
+        this.statusExpirated = statusExpirated;
+    }
+
     public LogisticClient getLogisticCompany() {
         return logisticCompany;
     }
@@ -70,13 +91,5 @@ public class Vehicle {
 
     public void setSubscriptionAssociated(int subscriptionAssociated) {
         this.subscriptionAssociated = subscriptionAssociated;
-    }
-
-    public String getStatusExpirated() {
-        return statusExpirated;
-    }
-
-    public void setStatusExpirated(String statusExpirated) {
-        this.statusExpirated = statusExpirated;
     }
 }
