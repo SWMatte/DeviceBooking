@@ -21,7 +21,8 @@ public class VehicleService implements iService<Vehicle> {
 
     @Autowired
     ClientSubRepository clientSubRepository;
-
+    @Autowired
+    SubscriptionRepository subscriptionRepository;
 
     @Override
     public List<Vehicle> findAll() {
@@ -31,18 +32,27 @@ public class VehicleService implements iService<Vehicle> {
     @Override
     public void add(Vehicle element) throws Exception {
         List<ClientSub> listSubscription = clientSubRepository.subscriptionByIdCompany(element.getLogisticCompany().getIdLogistic());
+        Subscription subscriptionAssociated = subscriptionRepository.findById(element.getSubscriptionAssociated()).orElseThrow();
         if (listSubscription != null) {
-            listSubscription.forEach(sub -> {
-                if (element.getSubscriptionAssociated() == sub.getIdSub().getIdSubscription()) {
-                    element.setSubscriptionAssociated(element.getSubscriptionAssociated());
+            if (subscriptionAssociated.isAvailable()) {
 
-                    clientSubRepository.updateUsed(true, element.getSubscriptionAssociated());
-                    clientSubRepository.updateStatus("ACTIVATED", element.getSubscriptionAssociated());
-                    vehicleRepository.save(element);
+                listSubscription.forEach(sub -> {
+                    {
 
-                }
-            });
+                        if (element.getSubscriptionAssociated() == sub.getIdSub().getIdSubscription()) {
+                            element.setSubscriptionAssociated(element.getSubscriptionAssociated());
 
+                            clientSubRepository.updateUsed(true, element.getSubscriptionAssociated());
+                            clientSubRepository.updateStatus("ACTIVATED", element.getSubscriptionAssociated());
+                            vehicleRepository.save(element);
+                            vehicleRepository.updateSubscriptionExpirated("ACTIVE", element.getIdVehicle());
+
+                        }
+                    }
+                });
+            }else{
+                System.out.println("abbonamento scaduto");
+            }
         } else {
             System.out.println("QUESTA AZIENDA NON HA ABBONAMENTI ALL'ATTIVO");
         }
@@ -57,6 +67,17 @@ public class VehicleService implements iService<Vehicle> {
 
     @Override
     public void update(Vehicle element) throws Exception {
+
+    }
+
+    public void vehicleActive(int subAssociatedToVehicle) {
+        Subscription subscriptionAssociated = subscriptionRepository.findById(subAssociatedToVehicle).orElseThrow();
+        Vehicle vehicle = vehicleRepository.findBySubscriptionAssociated(subAssociatedToVehicle);
+        if (subscriptionAssociated.isAvailable() == false) {
+            System.out.println("Device scaduto");
+            vehicleRepository.updateSubscriptionExpirated("EXPIRED", vehicle.getIdVehicle());
+        }
+
 
     }
 

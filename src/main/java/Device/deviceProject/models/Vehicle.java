@@ -16,6 +16,8 @@ public class Vehicle {
 
     private LocalDate assicuration; // sara' poi un entita' ? per gestire le revisioni
 
+    private String subscriptionExpirated;
+
     @ManyToOne( )
     @JoinColumn(name = "idLogistic")
     private LogisticClient logisticCompany;
@@ -68,5 +70,13 @@ public class Vehicle {
 
     public void setSubscriptionAssociated(int subscriptionAssociated) {
         this.subscriptionAssociated = subscriptionAssociated;
+    }
+
+    public String getSubscriptionExpirated() {
+        return subscriptionExpirated;
+    }
+
+    public void setSubscriptionExpirated(String subscriptionExpirated) {
+        this.subscriptionExpirated = subscriptionExpirated;
     }
 }

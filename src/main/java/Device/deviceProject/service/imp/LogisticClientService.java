@@ -35,24 +35,103 @@ public class LogisticClientService implements iService<LogisticClient> {
 
     @Override
     public void add(LogisticClient element) throws Exception {
-        LogisticClient aziendaEsistente = logisticClientRepository.findByCfLogistic(element.getCfLogistic());
+        LogisticClient existingCompany = logisticClientRepository.findByCfLogistic(element.getCfLogistic()); // if company already exist use the company on the DB
 
-        if (aziendaEsistente != null) {
-            List<Subscription> listaAbbonamenti = element.getListSubscription().stream().map(x -> subscriptionRepository.findById(x.getIdSubscription()).orElseThrow()).collect(Collectors.toList());
+        if (existingCompany != null) {
+            // List<Subscription> listSubscription = element.getListSubscription().stream().map(x -> subscriptionRepository.findById(x.getIdSubscription()).orElseThrow()).collect(Collectors.toList());
 
-            aziendaEsistente.getListSubscrition().addAll(listaAbbonamenti);
-            logisticClientRepository.save(aziendaEsistente);
+            List<Subscription> listSubscription = element.getListSubscription().stream().map(x -> subscriptionRepository.findById(x.getIdSubscription()).orElseThrow()).filter(sub->sub.isAvailable()).collect(Collectors.toList());
 
+            if (listSubscription.size() == 0) {
+                System.out.println("GLI ABBONAMENTI NON SONO ASSEGNABILI");
+            } else {
+
+                existingCompany.getListSubscrition().addAll(listSubscription);
+            }
+
+            listSubscription.forEach(sub -> {   // for each subscription in according to the duration set the date activation and finish
+                if (sub.isAvailable()) {
+                    int idSub = sub.getIdSubscription();
+                    LocalDate dataActivation = LocalDate.now();
+                    subscriptionRepository.updateDateActivation(LocalDate.now(), idSub);
+
+
+                    switch (sub.getDuration()) {
+                        case "month":
+                            subscriptionRepository.updateDateFinish(dataActivation.plusDays(30), idSub);
+                            break;
+                        case "annual":
+                            subscriptionRepository.updateDateFinish(dataActivation.plusYears(1), idSub);
+                            break;
+                        case "biweekly":
+                            subscriptionRepository.updateDateFinish(dataActivation.plusWeeks(2), idSub);
+                            break;
+                        case "week":
+                            subscriptionRepository.updateDateFinish(dataActivation.plusWeeks(1), idSub);
+                            break;
+
+                    }
+                    ClientSub clientsub = new ClientSub();
+                    clientsub.setIdSub(sub);
+                    clientsub.setIdCompany(existingCompany);
+                    clientsub.setStatus("ACTIVATED");
+                    clientSubRepository.save(clientsub);
+                } else {
+                    System.out.println("ABBONAMENTI SCADUTI");
+                }
+            });
+
+            logisticClientRepository.save(existingCompany);
         } else {
-            List<Subscription> listaAbbonamenti = element.getListSubscription().stream().map(x -> subscriptionRepository.findById(x.getIdSubscription()).orElseThrow()).collect(Collectors.toList());
-            element.setListSubscription(listaAbbonamenti);
-            logisticClientRepository.save(element);
+            //List<Subscription> listSubscription = element.getListSubscription().stream().map(x -> subscriptionRepository.findById(x.getIdSubscription()).orElseThrow()).collect(Collectors.toList());
+            List<Subscription> listSubscription = element.getListSubscription().stream().map(x -> subscriptionRepository.findById(x.getIdSubscription()).orElseThrow()).filter(sub->sub.isAvailable()).collect(Collectors.toList());
+            if (listSubscription.size() == 0) {
+                System.out.println("ABBONAMENTI NON ASSEGNABILI");
+            } else {
+                element.setListSubscription(listSubscription);
+                logisticClientRepository.save(element);
+
+            }
+
+            listSubscription.forEach(sub -> {   // for each subscription in according to the duration set the date activation and finish
+                if (sub.isAvailable()) {
+                    int idSub = sub.getIdSubscription();
+                    LocalDate dataActivation = LocalDate.now();
+                    subscriptionRepository.updateDateActivation(LocalDate.now(), idSub);
+
+
+
+                    switch (sub.getDuration()) {
+                        case "month":
+                            subscriptionRepository.updateDateFinish(dataActivation.plusDays(30), idSub);
+                            break;
+                        case "annual":
+                            subscriptionRepository.updateDateFinish(dataActivation.plusYears(1), idSub);
+                            break;
+                        case "biweekly":
+                            subscriptionRepository.updateDateFinish(dataActivation.plusWeeks(2), idSub);
+                            break;
+                        case "week":
+                            subscriptionRepository.updateDateFinish(dataActivation.plusWeeks(1), idSub);
+                            break;
+
+                    }
+                    ClientSub clientsub = new ClientSub();
+
+                    clientsub.setIdSub(sub);
+                    clientsub.setIdCompany(element);
+                    clientsub.setStatus("ACTIVATED");
+                    clientSubRepository.save(clientsub);
+                } else {
+                    System.out.println("ABBONAMENTI SCADUTI");
+                }
+            });
+
+
         }
 
+
     }
-
-
-
 
 
     @Override

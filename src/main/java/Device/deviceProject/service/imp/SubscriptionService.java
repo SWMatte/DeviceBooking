@@ -3,8 +3,10 @@ package Device.deviceProject.service.imp;
 import Device.deviceProject.models.Subscription;
 import Device.deviceProject.models.Device;
 import Device.deviceProject.models.DurationSubscription;
+import Device.deviceProject.repositories.ClientSubRepository;
 import Device.deviceProject.repositories.SubscriptionRepository;
 import Device.deviceProject.repositories.DeviceRepository;
+import Device.deviceProject.repositories.VehicleRepository;
 import Device.deviceProject.service.iService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,12 @@ public class SubscriptionService implements iService<Subscription> {
     SubscriptionRepository subscriptionRepository;
     @Autowired
     DeviceRepository deviceRepository;
+    @Autowired
+    ClientSubRepository clientSubRepository;
+
+    @Autowired
+    VehicleRepository vehicleRepository;
+
 
     @Override
     public List<Subscription> findAll() {
@@ -44,8 +52,8 @@ public class SubscriptionService implements iService<Subscription> {
                     element.setDuration(String.valueOf(DurationSubscription.week));
                     break;
             }
-
             subscriptionRepository.save(element);
+            deviceRepository.updateAssociated(true,d.getIdDevice());
         } else {
             throw new IllegalArgumentException();
         }
@@ -65,14 +73,18 @@ public class SubscriptionService implements iService<Subscription> {
     public void expiredSubscription() {
         List<Subscription> subExpired = subscriptionRepository.findAll()
                 .stream()
-                .filter(sub -> sub.getDateActivation().isAfter(sub.getDateFinish())).collect(Collectors.toList());
+                .filter(subscription -> subscription.getDateActivation()!=null && subscription.getDateFinish()!=null)
+                .filter(sub -> sub.getDateActivation().isAfter(sub.getDateFinish()) && sub.isAvailable())
+                .collect(Collectors.toList());
 
 
         subExpired.forEach(x ->{
-            deviceRepository.updateLicence(false,x.getDevice().getIdDevice());
-            subscriptionRepository.deleteById(x.getIdSubscription());
-
+            deviceRepository.updateAssociated(false,x.getDevice().getIdDevice());
+            clientSubRepository.updateStatus("EXPIRATED",x.getIdSubscription());
+            subscriptionRepository.updateAvailableAndDevice(false,null,x.getIdSubscription());
+            vehicleRepository.updateSubscriptionExpirated("EXPIRATED",x.getIdSubscription());
         } );
+
 
 
 

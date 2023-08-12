@@ -11,7 +11,7 @@ public interface DeviceRepository extends JpaRepository<Device,Integer> {
     @Transactional
     @Modifying
     @Query("UPDATE Device u SET u.associated=?1 WHERE u.idDevice=?2")
-    public void updateLicence(boolean licence, int idDevice);
+    public void updateAssociated(boolean licence, int idDevice);
 
 
 

@@ -49,7 +49,7 @@ public class SubscriptionController {
         abbonamentoService.remove(id);
     }
 
-    @DeleteMapping("/subscriptionexpired")
+    @PostMapping("/subscriptionexpired")
     public void removeSubscriptionExpired(   ) {
         subscriptionService.expiredSubscription();
     }

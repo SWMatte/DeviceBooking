@@ -21,4 +21,8 @@ public interface SubscriptionRepository extends JpaRepository<Subscription,Integ
  @Query("UPDATE Subscription u SET u.dateFinish=?1 WHERE u.idSubscription=?2")
  public void updateDateFinish(LocalDate data, int idSub);
 
+ @Transactional
+ @Modifying
+ @Query("UPDATE Subscription u SET u.available=?1 , u.device.idDevice=?2 WHERE u.idSubscription=?3")
+ public void updateAvailableAndDevice (boolean available,Integer idDevice, int idSub);
 }
