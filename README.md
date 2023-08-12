@@ -2,7 +2,12 @@
 
 # installation 
 
-Il progetto è stato creato in JAVA v.17 inizializato utilizzando  Spring Inizializr,   utilizzando queste dipendenze: Spring web, MYSQL DRIVER, Spring Data JPA with framework Hibernate.
+Il progetto è stato creato in JAVA v.17 inizializato utilizzando  Spring Inizializr, utilizzando queste dipendenze: 
+> Spring web
+
+>  MYSQL DRIVER
+
+> Spring Data JPA with framework Hibernate.
 
 <kbd> Setting </kbd>
 - è importante andare ad impostare nell'application properties le dipendeze relative ad hibernate ed SQL :
