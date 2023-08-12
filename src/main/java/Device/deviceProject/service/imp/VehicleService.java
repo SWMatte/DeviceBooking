@@ -1,6 +1,12 @@
 package Device.deviceProject.service.imp;
 
+import Device.deviceProject.models.ClientSub;
+import Device.deviceProject.models.LogisticClient;
+import Device.deviceProject.models.Subscription;
 import Device.deviceProject.models.Vehicle;
+import Device.deviceProject.repositories.ClientSubRepository;
+import Device.deviceProject.repositories.LogisticClientRepository;
+import Device.deviceProject.repositories.SubscriptionRepository;
 import Device.deviceProject.repositories.VehicleRepository;
 import Device.deviceProject.service.iService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +16,11 @@ import java.util.List;
 
 @Service
 public class VehicleService implements iService<Vehicle> {
-@Autowired
-VehicleRepository vehicleRepository;
+    @Autowired
+    VehicleRepository vehicleRepository;
+
+    @Autowired
+    ClientSubRepository clientSubRepository;
 
 
     @Override
@@ -21,7 +30,23 @@ VehicleRepository vehicleRepository;
 
     @Override
     public void add(Vehicle element) throws Exception {
-        vehicleRepository.save(element);
+        List<ClientSub> listSubscription = clientSubRepository.subscriptionByIdCompany(element.getLogisticCompany().getIdLogistic());
+        if (listSubscription != null) {
+            listSubscription.forEach(sub -> {
+                if (element.getSubscriptionAssociated() == sub.getIdSub().getIdSubscription()) {
+                    element.setSubscriptionAssociated(element.getSubscriptionAssociated());
+
+                    clientSubRepository.updateUsed(true, element.getSubscriptionAssociated());
+                    clientSubRepository.updateStatus("ACTIVATED", element.getSubscriptionAssociated());
+                    vehicleRepository.save(element);
+
+                }
+            });
+
+        } else {
+            System.out.println("QUESTA AZIENDA NON HA ABBONAMENTI ALL'ATTIVO");
+        }
+
 
     }
 
@@ -34,4 +59,6 @@ VehicleRepository vehicleRepository;
     public void update(Vehicle element) throws Exception {
 
     }
+
+
 }

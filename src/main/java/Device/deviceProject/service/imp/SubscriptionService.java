@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SubscriptionService implements iService<Subscription> {
@@ -51,6 +52,7 @@ public class SubscriptionService implements iService<Subscription> {
 
     }
 
+
     @Override
     public void remove(int id) throws Exception {
         subscriptionRepository.deleteById(id);
@@ -58,6 +60,21 @@ public class SubscriptionService implements iService<Subscription> {
 
     @Override
     public void update(Subscription element) throws Exception {
+
+    }
+    public void expiredSubscription() {
+        List<Subscription> subExpired = subscriptionRepository.findAll()
+                .stream()
+                .filter(sub -> sub.getDateActivation().isAfter(sub.getDateFinish())).collect(Collectors.toList());
+
+
+        subExpired.forEach(x ->{
+            deviceRepository.updateLicence(false,x.getDevice().getIdDevice());
+            subscriptionRepository.deleteById(x.getIdSubscription());
+
+        } );
+
+
 
     }
 }

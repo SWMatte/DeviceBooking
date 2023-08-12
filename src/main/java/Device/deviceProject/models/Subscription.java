@@ -2,6 +2,8 @@ package Device.deviceProject.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,12 +21,18 @@ public class Subscription {
     private double price;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "listSubscription")
+    @ManyToMany(mappedBy = "listSubscription",cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<LogisticClient> listLogisticClient;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "idDevice")
-    private Device device;
+     private Device device;
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "idSub",cascade = CascadeType.REMOVE)
+     private List<ClientSub> subscriptionAssigned;
+
 
     public int getIdSubscription() {
         return idSubscription;
@@ -66,13 +74,6 @@ public class Subscription {
         this.price = price;
     }
 
-    public List<LogisticClient> getListClient() {
-        return listLogisticClient;
-    }
-
-    public void setListClient(List<LogisticClient> listLogisticClient) {
-        this.listLogisticClient = listLogisticClient;
-    }
 
     public Device getDevice() {
         return device;
@@ -88,5 +89,22 @@ public class Subscription {
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+
+    public List<ClientSub> getSubscriptionAssigned() {
+        return subscriptionAssigned;
+    }
+
+    public void setSubscriptionAssigned(List<ClientSub> subscriptionAssigned) {
+        this.subscriptionAssigned = subscriptionAssigned;
+    }
+
+    public List<LogisticClient> getListLogisticClient() {
+        return listLogisticClient;
+    }
+
+    public void setListLogisticClient(List<LogisticClient> listLogisticClient) {
+        this.listLogisticClient = listLogisticClient;
     }
 }

@@ -2,22 +2,24 @@ package Device.deviceProject.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class Device {
 
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private int idDevice;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idDevice;
 
-private String nameDevice;
-private String codeDevice;
+    private String nameDevice;
+    private String codeDevice;
 
-private boolean licence;
+    private boolean associated;
 
-@JsonIgnore
-@OneToOne(mappedBy = "device", cascade = CascadeType.ALL)
-private Subscription subscription;
+    @JsonIgnore
+    @OneToOne(mappedBy = "device")
+     private Subscription subscription;
 
 
     public int getIdDevice() {
@@ -44,12 +46,13 @@ private Subscription subscription;
         this.codeDevice = codeDevice;
     }
 
-    public boolean isLicence() {
-        return licence;
+
+    public boolean isAssociated() {
+        return associated;
     }
 
-    public void setLicence(boolean licence) {
-        this.licence = licence;
+    public void setAssociated(boolean associated) {
+        this.associated = associated;
     }
 
     public Subscription getSubscription() {

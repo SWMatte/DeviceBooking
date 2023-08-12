@@ -6,18 +6,21 @@ import java.time.LocalDate;
 
 @Entity
 public class Vehicle {
- @Id
- @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idVehicle;
 
- private String nameVehicle;
- private String plate;
+    private String nameVehicle;
+    @Column(unique = true)
+    private String plate;
 
- private LocalDate assicuration; // sara' poi un entita' ? per gestire le revisioni
+    private LocalDate assicuration; // sara' poi un entita' ? per gestire le revisioni
 
- @ManyToOne
- @JoinColumn(name = "idLogistic")
- private LogisticClient logisticCompany;
+    @ManyToOne( )
+    @JoinColumn(name = "idLogistic")
+    private LogisticClient logisticCompany;
+
+    private int subscriptionAssociated;
 
     public int getIdVehicle() {
         return idVehicle;
@@ -59,6 +62,11 @@ public class Vehicle {
         this.logisticCompany = logisticCompany;
     }
 
+    public int getSubscriptionAssociated() {
+        return subscriptionAssociated;
+    }
 
-
+    public void setSubscriptionAssociated(int subscriptionAssociated) {
+        this.subscriptionAssociated = subscriptionAssociated;
+    }
 }

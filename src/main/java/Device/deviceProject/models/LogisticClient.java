@@ -3,6 +3,8 @@ package Device.deviceProject.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
@@ -15,15 +17,24 @@ public class LogisticClient {
     private String name;
     private String cfLogistic;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
-    @JoinTable(name = "clientLogistic_subscription",
-    joinColumns = @JoinColumn(name = "idLogistic", referencedColumnName = "idLogistic"),
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+     @JoinTable(name = "clientLogistic_subscription",
+            joinColumns = @JoinColumn(name = "idLogistic", referencedColumnName = "idLogistic"),
             inverseJoinColumns = @JoinColumn(name = "idSubscription",referencedColumnName = "idSubscription"))
-    private List<Subscription> listSubscription;
+     private List<Subscription> listSubscription;
+
+
 
     @JsonIgnore
-    @OneToMany(mappedBy = "logisticCompany",cascade = {CascadeType.REMOVE,CascadeType.MERGE,CascadeType.PERSIST})
+    @OneToMany(mappedBy = "logisticCompany")
     private List<Vehicle> vehicles;
+
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "idCompany" )
+    private List<ClientSub> subscriptionAssigned;
+
 
     public int getIdLogistic() {
         return idLogistic;
@@ -72,6 +83,14 @@ public class LogisticClient {
 
     public void setListSubscription(List<Subscription> listSubscription) {
         this.listSubscription = listSubscription;
+
     }
 
+    public List<ClientSub> getSubscriptionAssigned() {
+        return subscriptionAssigned;
+    }
+
+    public void setSubscriptionAssigned(List<ClientSub> subscriptionAssigned) {
+        this.subscriptionAssigned = subscriptionAssigned;
+    }
 }

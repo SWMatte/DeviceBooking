@@ -3,13 +3,11 @@ package Device.deviceProject.controller;
 import Device.deviceProject.models.Subscription;
 import Device.deviceProject.response.ResponseHandler;
 import Device.deviceProject.service.iService;
+import Device.deviceProject.service.imp.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class SubscriptionController {
@@ -18,6 +16,8 @@ public class SubscriptionController {
     @Autowired
     iService<Subscription> abbonamentoService;
 
+    @Autowired
+    SubscriptionService subscriptionService;
 
 
     @PostMapping("/subscription")
@@ -44,4 +44,13 @@ public class SubscriptionController {
         }
     }
 
+    @DeleteMapping("/subscription/{id}")
+    public void removeSubscription(@PathVariable int id  ) throws Exception {
+        abbonamentoService.remove(id);
+    }
+
+    @DeleteMapping("/subscriptionexpired")
+    public void removeSubscriptionExpired(   ) {
+        subscriptionService.expiredSubscription();
+    }
 }
