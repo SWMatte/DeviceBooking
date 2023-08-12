@@ -2,7 +2,8 @@
 
 # installation 
 
-Il progetto è stato creato in JAVA v.17 inizializato utilizzando  Spring Inizializr, utilizzando queste dipendenze: 
+The project was created in JAVA v.17 and initialized using Spring Initializr, with the following dependencies:
+
 > Spring web
 
 >  MYSQL DRIVER
@@ -10,8 +11,9 @@ Il progetto è stato creato in JAVA v.17 inizializato utilizzando  Spring Inizia
 > Spring Data JPA with framework Hibernate.
 
 <kbd> Setting </kbd>
-- è importante andare ad impostare nell'application properties le dipendeze relative ad hibernate ed SQL :
 
+- It is important to configure the Hibernate and SQL dependencies in the application properties:
+  
   > spring.datasource.url=jdbc:mysql://localhost:3306/ **name database**
 
   > spring.datasource.username=root
@@ -23,32 +25,32 @@ Il progetto è stato creato in JAVA v.17 inizializato utilizzando  Spring Inizia
   > spring.jpa.show-sql=true
 
 
--  è possibile copiare il repository da > git clone https://github.com/DeviceBooking.git
+-  You can clone the repository from > git clone  https://github.com/DeviceBooking.git
 
-- è importante installare una versione di POSTMAN per poter effettuare le chiamate REST 
+- It is necessary to install a version of POSTMAN to make REST calls.
 
-## Scopo dell'applicazione?
+## Purpose of the application?
 
-L'applicazione, a scopo di esercitazione, è stata creata con lo scopo di poter monitorare quali abbonamenti le aziende logistiche comprano e a quali veicoli vengono associati.
- Ecco un approfondimento sulle classi dell'applicazione:
+The application, created for training purposes, aims to monitor the subscriptions that logistic companies purchase and associate with vehicles. Here's an overview of the application's classes:
 
- -  ClientSub : la classe si occupa di monitorare  quali abbonamenti sono associati alle aziende e se quest'ultimi siano stati associati o meno a dei veicoli, in più tiene traccia dello stato di attivazione dell'abbonamento.
- -  Device : la classe registra un device specifico, il quale dovra' essere associato o meno ad un abbonamento.
- -  LogistiClient : tiene traccia delle compagnie logistiche.
- -  Subscription : questa classe rappresenta gli abbonamenti associati ad un device, tiene conto della data di attivazione e di termine una volta che viene associata ad un cliente.
- -  Vehicle : la classe tiene conto dei veicoli associati alle aziende con i rispettivi device.
+-   ClientSub: This class monitors which subscriptions are associated with companies and whether they have been linked to vehicles. Additionally, it tracks the activation status of the subscription.
+-  Device: This class records a specific device, which may or may not be associated with a subscription.
+-  LogisticClient: This class keeps track of logistic companies.
+-  Subscription: Represents subscriptions associated with a device. It keeps track of the activation and expiration dates once associated with a client.
+-  Vehicle: This class keeps track of vehicles associated with companies, along with their respective devices.
 
-> approfondimento sulle classi:
-  - alcune di esse lavorano accoppiate, nel senso che se aggiungo un abbonamento devo associarlo ad un device.
-  - aggiungendo un cliente associo ad esso degli abbonamenti che permetteranno di aggiornare la tabella subscription con la data di attivazione e di termine.
-  - è possibile inoltre andare ad aggiornare tutti gli abbonamenti scaduti aggiornandoli con " EXPIRATED " 
+> In-depth about the classes:
+
+-  Some of them work in pairs, meaning that when adding a subscription, it needs to be associated with a device.
+-  When adding a client, subscriptions can be linked to update the subscription table with activation and expiration dates.
+-  It is also possible to update all expired subscriptions by marking them as "EXPIRED".
 
 
-# futuri miglioramenti
+# Future Improvements
 
-1. Migliorare le query con la possibilita' di mostrare tutti gli abbonamenti associati ad un cliente , senza quelli scaduti. 
-2. Mostrare al momento dell'acquisto, il costo relativo agli abbonamenti.
-3. Impostare una classe assicurazione che mi permetta di abilitare o meno i veicoli.
-   Qualsiasi nuova implementazione è ben accetta.
+1. Enhance queries to allow displaying all subscriptions associated with a client, excluding expired ones.
+2. Show the cost of subscriptions at the time of purchase.
+3. Implement an insurance class to enable or disable vehicles.
+Any new implementations are welcome.
 
        
