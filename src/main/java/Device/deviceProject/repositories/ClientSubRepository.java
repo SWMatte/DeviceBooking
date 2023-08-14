@@ -10,12 +10,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ClientSubRepository extends JpaRepository<ClientSub,Integer> {
+public interface ClientSubRepository extends JpaRepository<ClientSub, Integer> {
 
 
-     @Query("""
-    SELECT u FROM ClientSub u WHERE u.idCompany.idLogistic=?1 AND u.isUsed=FALSE
-""")
+    @Query("""
+                SELECT u FROM ClientSub u WHERE u.idCompany.idLogistic=?1 AND u.isUsed=FALSE
+            """)
     public List<ClientSub> subscriptionByIdCompany(int idCompany);
 
 
@@ -29,10 +29,5 @@ public interface ClientSubRepository extends JpaRepository<ClientSub,Integer> {
     @Query("UPDATE ClientSub u SET u.status=?1 WHERE u.idSub.idSubscription=?2")
     public void updateStatus(String status, int idSubscription);
 
-    @Query(value = """
-            SELECT * FROM client_sub
-            Inner join logistic_client using(id_logistic)
-            inner join subscription using(id_subscription);""",nativeQuery = true)
-    List<ClientSub> trovaTutto();
 
 }

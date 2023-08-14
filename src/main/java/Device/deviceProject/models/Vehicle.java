@@ -1,5 +1,6 @@
 package Device.deviceProject.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -20,7 +21,7 @@ public class Vehicle {
 
     @ManyToOne( )
     @JoinColumn(name = "idLogistic")
-    private LogisticClient logisticCompany;
+     private LogisticClient logisticCompany;
 
     private int subscriptionAssociated;
 

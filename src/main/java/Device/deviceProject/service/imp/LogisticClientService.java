@@ -22,8 +22,6 @@ public class LogisticClientService implements iService<LogisticClient> {
 
     @Autowired
     SubscriptionRepository subscriptionRepository;
-    @Autowired
-    DeviceRepository deviceRepository;
 
     @Autowired
     ClientSubRepository clientSubRepository;

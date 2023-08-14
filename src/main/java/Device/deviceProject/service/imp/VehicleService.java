@@ -2,7 +2,6 @@ package Device.deviceProject.service.imp;
 
 import Device.deviceProject.DTO.VehicleDTO;
 import Device.deviceProject.models.ClientSub;
-import Device.deviceProject.models.LogisticClient;
 import Device.deviceProject.models.Subscription;
 import Device.deviceProject.models.Vehicle;
 import Device.deviceProject.repositories.ClientSubRepository;
@@ -10,8 +9,10 @@ import Device.deviceProject.repositories.LogisticClientRepository;
 import Device.deviceProject.repositories.SubscriptionRepository;
 import Device.deviceProject.repositories.VehicleRepository;
 import Device.deviceProject.service.iService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,22 +27,13 @@ public class VehicleService implements iService<Vehicle> {
     @Autowired
     SubscriptionRepository subscriptionRepository;
 
+
     @Autowired
-    LogisticClientRepository logisticClientRepository;
+    ModelMapper modelMapper;
 
-
-
-    public List<VehicleDTO> getAll() {
+    public List<Vehicle> getAll() {
         List<Vehicle> listaVeicoli = vehicleRepository.findAll();
-
-       List<VehicleDTO> veicoliDTO= listaVeicoli.stream().map(
-                vehicle -> {
-                    LogisticClient azienda= logisticClientRepository.findById(vehicle.getLogisticCompany().getIdLogistic()).orElseThrow();
-                    return new VehicleDTO(vehicle.getIdVehicle(), vehicle.getNameVehicle(), vehicle.getPlate(), vehicle.getAssicuration(), vehicle.getStatusExpirated(), azienda, vehicle.getSubscriptionAssociated());
-                }
-        ).collect(Collectors.toList());
-
-        return veicoliDTO;
+        return listaVeicoli;
 
     }
 
@@ -59,7 +51,6 @@ public class VehicleService implements iService<Vehicle> {
 
                 listSubscription.forEach(sub -> {
                     {
-
                         if (element.getSubscriptionAssociated() == sub.getIdSub().getIdSubscription()) {
                             element.setSubscriptionAssociated(element.getSubscriptionAssociated());
 
@@ -71,7 +62,7 @@ public class VehicleService implements iService<Vehicle> {
                         }
                     }
                 });
-            }else{
+            } else {
                 System.out.println("abbonamento scaduto");
             }
         } else {
@@ -91,10 +82,20 @@ public class VehicleService implements iService<Vehicle> {
 
     }
 
-    public List<Vehicle> vehicleActive( ) {
+    public List<Vehicle> vehicleActive() {
         return vehicleRepository.findAll().stream().filter(vehicle -> vehicle.getStatusExpirated().equals("ACTIVE")).collect(Collectors.toList());
 
     }
 
+    public List<VehicleDTO> allInformation() {
 
+        List<VehicleDTO> listInfo = vehicleRepository.getAllInfo().stream().map(x -> modelMapper.map(x, VehicleDTO.class)).collect(Collectors.toList());
+
+
+        return listInfo;
+    }
 }
+
+
+
+

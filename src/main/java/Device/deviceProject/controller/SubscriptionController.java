@@ -32,7 +32,7 @@ public class SubscriptionController {
     }
 
     @GetMapping("/subscription")
-    public ResponseEntity<Object> getAll(   ) {
+    public ResponseEntity<Object> getAll() {
         try {
             return ResponseHandler.generateResponse("ok", HttpStatus.OK, abbonamentoService.findAll());
         } catch (Exception e) {
@@ -42,12 +42,12 @@ public class SubscriptionController {
     }
 
     @DeleteMapping("/subscription/{id}")
-    public void removeSubscription(@PathVariable int id  ) throws Exception {
+    public void removeSubscription(@PathVariable int id) throws Exception {
         abbonamentoService.remove(id);
     }
 
     @PostMapping("/subscriptionexpired")
-    public void removeSubscriptionExpired(   ) {
+    public void removeSubscriptionExpired() {
         subscriptionService.expiredSubscription();
     }
 }

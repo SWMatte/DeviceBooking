@@ -19,7 +19,7 @@ public class DeviceController {
     iService<Device> deviceService;
 
     @PostMapping("/device")
-    public ResponseEntity<Object> add(@RequestBody  Device element) throws Exception {
+    public ResponseEntity<Object> add(@RequestBody Device element) throws Exception {
         try {
             deviceService.add(element);
             return ResponseHandler.generateMessage("ok", HttpStatus.OK);
@@ -31,7 +31,7 @@ public class DeviceController {
     }
 
     @GetMapping("/device")
-    public ResponseEntity<Object> getAll(   ) {
+    public ResponseEntity<Object> getAll() {
         try {
             return ResponseHandler.generateResponse("ok", HttpStatus.OK, deviceService.findAll());
 

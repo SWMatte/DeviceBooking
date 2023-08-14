@@ -1,5 +1,6 @@
 package Device.deviceProject.controller;
 
+import Device.deviceProject.DTO.VehicleDTO;
 import Device.deviceProject.models.Vehicle;
 import Device.deviceProject.response.ResponseHandler;
 import Device.deviceProject.service.iService;
@@ -17,7 +18,7 @@ public class VehicleController {
     @Autowired
     iService<Vehicle> IvehicleiService;
     @Autowired
-    VehicleService  vehicleService;
+    VehicleService vehicleService;
 
     @PostMapping("/vehicle")
     public ResponseEntity<Object> add(@RequestBody Vehicle element) {
@@ -32,9 +33,9 @@ public class VehicleController {
     }
 
     @GetMapping("/vehicle")
-    public ResponseEntity<Object> getAll(   ) {
+    public ResponseEntity<Object> getAll() {
         try {
-            return ResponseHandler.generateResponse("ok", HttpStatus.OK,vehicleService.getAll());
+            return ResponseHandler.generateResponse("ok", HttpStatus.OK, vehicleService.getAll());
         } catch (Exception e) {
             return ResponseHandler.generateMessage("No", HttpStatus.BAD_REQUEST);
 
@@ -44,7 +45,14 @@ public class VehicleController {
     @GetMapping("/vehicleActive")
     public List<Vehicle> vehicleActive() {
 
-       return vehicleService.vehicleActive();
+        return vehicleService.vehicleActive();
+
+    }
+
+    @GetMapping("/vehicleallInformation")
+    public List<VehicleDTO> allInformation() {
+
+        return vehicleService.allInformation();
 
     }
 

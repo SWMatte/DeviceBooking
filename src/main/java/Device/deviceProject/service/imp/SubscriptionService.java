@@ -60,16 +60,6 @@ public class SubscriptionService implements iService<Subscription> {
 
     }
 
-
-    @Override
-    public void remove(int id) throws Exception {
-        subscriptionRepository.deleteById(id);
-    }
-
-    @Override
-    public void update(Subscription element) throws Exception {
-
-    }
     public void expiredSubscription() {
         // filter subscription for not available anymore
         List<Subscription> subExpired = subscriptionRepository.findAll()
@@ -85,6 +75,15 @@ public class SubscriptionService implements iService<Subscription> {
             subscriptionRepository.updateAvailableAndDevice(false,null,x.getIdSubscription());
             vehicleRepository.updateSubscriptionExpirated("EXPIRATED",x.getIdSubscription());
         } );
+
+    }
+    @Override
+    public void remove(int id) throws Exception {
+        subscriptionRepository.deleteById(id);
+    }
+
+    @Override
+    public void update(Subscription element) throws Exception {
 
     }
 }

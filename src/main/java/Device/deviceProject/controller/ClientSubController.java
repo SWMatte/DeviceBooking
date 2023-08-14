@@ -14,15 +14,13 @@ import java.util.List;
 public class ClientSubController {
 
     @Autowired
-    ClientSubService  clientSubService;
+    ClientSubService clientSubService;
 
 
-    @GetMapping("/clientSub")
-    public  List<ClientSub> getAll() {
-
-        return clientSubService.getAll();
-
-
+    @GetMapping("clientSub")
+    public List<ClientSub> findAll() {
+        return clientSubService.findAll();
     }
+
 
 }
