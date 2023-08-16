@@ -1,5 +1,10 @@
 # DeviceBooking
-
+<kbd> If you download the collection of postman the sequence of calls are:
+ 1.  add device
+ 2.  add subscription
+ 3.  add client
+ 4.  add vehicle
+ </kbd>
 # installation 
 
 The project was created in JAVA v.17 and initialized using Spring Initializr, with the following dependencies:

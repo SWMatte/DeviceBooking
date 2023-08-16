@@ -106,7 +106,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nameDevice\":\"Prototipe-X\",\r\n    \"codeDevice\":\"XYSDH337\",\r\n    \"licence\":false\r\n}",
+							"raw": "{\r\n    \"nameDevice\":\"Prototipe-Y\",\r\n    \"codeDevice\":\"XYSDH337\",\r\n    \"associated\":false\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -212,6 +212,25 @@
 							"port": "8080",
 							"path": [
 								"vehicle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL INFORMATION WITH VEHICLES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/vehicleallInformation",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehicleallInformation"
 							]
 						}
 					},
