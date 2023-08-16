@@ -44,17 +44,18 @@ public class VehicleController {
 
     @GetMapping("/vehicleActive")
     public List<Vehicle> vehicleActive() {
-
         return vehicleService.vehicleActive();
-
     }
 
     @GetMapping("/vehicleallInformation")
     public List<VehicleDTO> allInformation() {
-
         return vehicleService.allInformation();
 
     }
 
+    @GetMapping("/vehicleCompany")
+    public List<Vehicle> getAllVehicleByCompany(@RequestParam("idCompany") int idCompany){
+        return vehicleService.allVehicleByCompany(idCompany);
+    }
 
 }

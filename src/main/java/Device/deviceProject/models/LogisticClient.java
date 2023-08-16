@@ -60,6 +60,13 @@ public class LogisticClient {
         this.cfLogistic = cfLogistic;
     }
 
+    public List<ClientSub> getSubscriptionAssigned() {
+        return subscriptionAssigned;
+    }
+
+    public void setSubscriptionAssigned(List<ClientSub> subscriptionAssigned) {
+        this.subscriptionAssigned = subscriptionAssigned;
+    }
 
     public void setListSubscrition(List<Subscription> listSubscrition) {
         this.listSubscription = listSubscrition;

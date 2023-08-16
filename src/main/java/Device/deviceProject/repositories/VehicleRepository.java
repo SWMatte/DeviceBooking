@@ -62,4 +62,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
  */
 
 
+    @Query("SELECT u FROM Vehicle u where u.logisticCompany.idLogistic=?1")
+    public List<Vehicle> findAllVehicleByCompany(int idCompany);
+
 }

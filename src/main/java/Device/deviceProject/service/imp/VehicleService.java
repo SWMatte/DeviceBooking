@@ -39,7 +39,7 @@ public class VehicleService implements iService<Vehicle> {
 
     @Override
     public List<Vehicle> findAll() {
-        return null;
+        return vehicleRepository.findAll();
     }
 
     @Override
@@ -88,11 +88,13 @@ public class VehicleService implements iService<Vehicle> {
     }
 
     public List<VehicleDTO> allInformation() {
-
         List<VehicleDTO> listInfo = vehicleRepository.getAllInfo().stream().map(x -> modelMapper.map(x, VehicleDTO.class)).collect(Collectors.toList());
-
-
         return listInfo;
+    }
+
+
+    public List<Vehicle> allVehicleByCompany(int idCompany){
+        return vehicleRepository.findAllVehicleByCompany(idCompany);
     }
 }
 
