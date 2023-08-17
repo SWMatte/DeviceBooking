@@ -23,6 +23,6 @@ public interface SubscriptionRepository extends JpaRepository<Subscription,Integ
 
  @Transactional
  @Modifying
- @Query("UPDATE Subscription u SET u.available=?1 , u.device.idDevice=?2 WHERE u.idSubscription=?3")
- public void updateAvailableAndDevice (boolean available,Integer idDevice, int idSub);
+ @Query("UPDATE Subscription u SET u.available=?1 , u.device.idDevice=?2, u.statusSubscription=?3 WHERE u.idSubscription=?4")
+ public void updateAvailableAndDeviceAndStatus (boolean available,Integer idDevice,String status, int idSub);
 }

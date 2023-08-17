@@ -1,7 +1,7 @@
 package Device.deviceProject.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
+ import jakarta.persistence.*;
+ import javax.validation.constraints.Size;
 
 import java.time.LocalDate;
 
@@ -13,6 +13,7 @@ public class Vehicle {
 
     private String nameVehicle;
     @Column(unique = true)
+    @Size(min = 2, max = 14)
     private String plate;
 
     private LocalDate assicuration; // sara' poi un entita' ? per gestire le revisioni

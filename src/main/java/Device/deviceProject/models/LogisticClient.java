@@ -19,7 +19,7 @@ public class LogisticClient {
 
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE} )
     @JoinTable(name = "clientLogistic_subscription",
             joinColumns = @JoinColumn(name = "idLogistic", referencedColumnName = "idLogistic"),
             inverseJoinColumns = @JoinColumn(name = "idSubscription", referencedColumnName = "idSubscription"))

@@ -22,6 +22,7 @@ public class ClientSub {
     private boolean isUsed;
 
     private String status;
+
     public int getId() {
         return id;
     }
@@ -61,4 +62,6 @@ public class ClientSub {
     public void setStatus(String status) {
         status = status;
     }
+
+
 }

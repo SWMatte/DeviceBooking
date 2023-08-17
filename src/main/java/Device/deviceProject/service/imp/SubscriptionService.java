@@ -72,7 +72,7 @@ public class SubscriptionService implements iService<Subscription> {
         subExpired.forEach(x ->{
             deviceRepository.updateAssociated(false,x.getDevice().getIdDevice());
             clientSubRepository.updateStatus("EXPIRATED",x.getIdSubscription());
-            subscriptionRepository.updateAvailableAndDevice(false,null,x.getIdSubscription());
+            subscriptionRepository.updateAvailableAndDeviceAndStatus(false,null,"EXPIRATED" ,x.getIdSubscription());
             vehicleRepository.updateSubscriptionExpirated("EXPIRATED",x.getIdSubscription());
         } );
 

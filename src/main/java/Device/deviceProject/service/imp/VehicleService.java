@@ -27,7 +27,6 @@ public class VehicleService implements iService<Vehicle> {
     @Autowired
     SubscriptionRepository subscriptionRepository;
 
-
     @Autowired
     ModelMapper modelMapper;
 

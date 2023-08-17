@@ -19,6 +19,7 @@ public class Subscription {
     private LocalDate dateFinish;
     private boolean available;
     private double price;
+    private String statusSubscription;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "listSubscription",cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
@@ -106,5 +107,14 @@ public class Subscription {
 
     public void setListLogisticClient(List<LogisticClient> listLogisticClient) {
         this.listLogisticClient = listLogisticClient;
+    }
+
+
+    public String getStatusSubscription() {
+        return statusSubscription;
+    }
+
+    public void setStatusSubscription(String statusSubscription) {
+        this.statusSubscription = statusSubscription;
     }
 }
