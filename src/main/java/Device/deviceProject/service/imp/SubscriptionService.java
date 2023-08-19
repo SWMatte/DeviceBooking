@@ -8,6 +8,7 @@ import Device.deviceProject.repositories.SubscriptionRepository;
 import Device.deviceProject.repositories.DeviceRepository;
 import Device.deviceProject.repositories.VehicleRepository;
 import Device.deviceProject.service.iService;
+import Device.deviceProject.service.iSubscription;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class SubscriptionService implements iService<Subscription> {
+public class SubscriptionService implements iService<Subscription>, iSubscription {
     @Autowired
     SubscriptionRepository subscriptionRepository;
     @Autowired
@@ -25,7 +26,6 @@ public class SubscriptionService implements iService<Subscription> {
 
     @Autowired
     VehicleRepository vehicleRepository;
-
 
     @Override
     public List<Subscription> findAll() {
@@ -60,6 +60,7 @@ public class SubscriptionService implements iService<Subscription> {
 
     }
 
+    @Override
     public void expiredSubscription() {
         // filter subscription for not available anymore
         List<Subscription> subExpired = subscriptionRepository.findAll()
@@ -77,6 +78,12 @@ public class SubscriptionService implements iService<Subscription> {
         } );
 
     }
+
+    @Override
+    public void notificationExpiration() {
+
+    }
+
     @Override
     public void remove(int id) throws Exception {
         subscriptionRepository.deleteById(id);

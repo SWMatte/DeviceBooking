@@ -117,4 +117,21 @@ public class Subscription {
     public void setStatusSubscription(String statusSubscription) {
         this.statusSubscription = statusSubscription;
     }
+
+
+    @Override
+    public String toString() {
+        return "Subscription{" +
+                "idSubscription=" + idSubscription +
+                ", duration='" + duration + '\'' +
+                ", dateActivation=" + dateActivation +
+                ", dateFinish=" + dateFinish +
+                ", available=" + available +
+                ", price=" + price +
+                ", statusSubscription='" + statusSubscription + '\'' +
+                ", listLogisticClient=" + listLogisticClient +
+                ", device=" + device +
+                ", subscriptionAssigned=" + subscriptionAssigned +
+                '}';
+    }
 }

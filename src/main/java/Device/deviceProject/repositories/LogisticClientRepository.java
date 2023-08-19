@@ -18,4 +18,7 @@ public interface LogisticClientRepository extends JpaRepository<LogisticClient,I
     @Modifying
     @Query("UPDATE LogisticClient u SET u.listSubscription=?1 WHERE u.idLogistic=?2")
     public void updateListSubscription(List<Subscription> subscription, int idLogistic);
+
+    @Query("SELECT u FROM LogisticClient u WHERE u.enableEmail=true")
+    List<LogisticClient> listCompanies();
 }

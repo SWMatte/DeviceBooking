@@ -3,21 +3,20 @@ package Device.deviceProject.service.imp;
 import Device.deviceProject.models.*;
 import Device.deviceProject.repositories.ClientSubRepository;
 import Device.deviceProject.repositories.SubscriptionRepository;
-import Device.deviceProject.repositories.DeviceRepository;
 import Device.deviceProject.repositories.LogisticClientRepository;
 import Device.deviceProject.service.iService;
-import org.apache.juli.logging.Log;
+import Device.deviceProject.service.iServiceClientLogistic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
-public class LogisticClientService implements iService<LogisticClient> {
+public class LogisticClientService implements iService<LogisticClient>, iServiceClientLogistic {
     @Autowired
     LogisticClientRepository logisticClientRepository;
 
@@ -26,6 +25,9 @@ public class LogisticClientService implements iService<LogisticClient> {
 
     @Autowired
     ClientSubRepository clientSubRepository;
+
+    @Autowired
+    SendEmailService sendEmailService;
 
     @Override
     public List<LogisticClient> findAll() {
@@ -121,5 +123,47 @@ public class LogisticClientService implements iService<LogisticClient> {
 
     }
 
+    @Override
+    @Scheduled(cron = "0 0 * * * ?")
+    public void sendEmail() {
+        List<LogisticClient> companiesWithEnabledEmail = logisticClientRepository.listCompanies(); // Recupera le aziende con enableEmail = true
 
+        Map<LogisticClient, List<Subscription>> mapCompanyAndSubscription = new HashMap<>(); // crea la mappa con aziende - abbonamenti
+
+        LocalDate currentDate = LocalDate.now();
+
+        for (LogisticClient company : companiesWithEnabledEmail) {
+
+            List<Subscription> subAlmostExpired = company.getListSubscription().stream()      // ottengo la lista di abbonamenti scaduti
+                    .filter(sub -> currentDate.plusDays(3).isEqual(sub.getDateFinish()))
+                    .collect(Collectors.toList());
+
+            if (!subAlmostExpired.isEmpty()) {  // se quella lista non è vuota riempio la mappa
+                mapCompanyAndSubscription.put(company, subAlmostExpired);
+            }
+        }
+
+        mapCompanyAndSubscription.forEach((company, subscriptions) -> {   // costruisco il messaggio da inviare
+
+            String emailSubject = "Subscription Expiry Notification";  // oggetto dell'email
+            StringBuilder emailMessage = new StringBuilder();
+            emailMessage.append("Dear ").append(company.getName()).append(",\n\n");
+            emailMessage.append("Your subscriptions are expiring soon:\n");
+
+            subscriptions.forEach(sub -> {
+                emailMessage.append("- Subscription ID: ").append(sub.getIdSubscription())
+                        .append(", Expiry Date: ").append(sub.getDateFinish()).append("\n");
+
+              });
+
+            String recipientEmail = company.getEmail();
+            System.out.println(recipientEmail);
+            System.out.println(emailSubject);
+            System.out.println(emailMessage);
+           // sendEmailService.sendSingleEmail(recipientEmail, emailSubject, emailMessage.toString());
+
+        });
+
+
+    }
 }

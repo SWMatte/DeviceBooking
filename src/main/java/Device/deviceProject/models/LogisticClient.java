@@ -17,9 +17,11 @@ public class LogisticClient {
     private String name;
     private String cfLogistic;
 
+    private boolean enableEmail;
+    private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE} )
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "clientLogistic_subscription",
             joinColumns = @JoinColumn(name = "idLogistic", referencedColumnName = "idLogistic"),
             inverseJoinColumns = @JoinColumn(name = "idSubscription", referencedColumnName = "idSubscription"))
@@ -40,9 +42,6 @@ public class LogisticClient {
         return idLogistic;
     }
 
-    public void setIdLogistic(int idLogistic) {
-        this.idLogistic = idLogistic;
-    }
 
     public String getName() {
         return name;
@@ -56,20 +55,12 @@ public class LogisticClient {
         return cfLogistic;
     }
 
+    public void setIdLogistic(int idLogistic) {
+        this.idLogistic = idLogistic;
+    }
+
     public void setCfLogistic(String cfLogistic) {
         this.cfLogistic = cfLogistic;
-    }
-
-    public List<ClientSub> getSubscriptionAssigned() {
-        return subscriptionAssigned;
-    }
-
-    public void setSubscriptionAssigned(List<ClientSub> subscriptionAssigned) {
-        this.subscriptionAssigned = subscriptionAssigned;
-    }
-
-    public void setListSubscrition(List<Subscription> listSubscrition) {
-        this.listSubscription = listSubscrition;
     }
 
     public List<Vehicle> getVehicles() {
@@ -80,6 +71,29 @@ public class LogisticClient {
         this.vehicles = vehicles;
     }
 
+    public List<ClientSub> getSubscriptionAssigned() {
+        return subscriptionAssigned;
+    }
+
+    public void setSubscriptionAssigned(List<ClientSub> subscriptionAssigned) {
+        this.subscriptionAssigned = subscriptionAssigned;
+    }
+
+    public boolean isEnableEmail() {
+        return enableEmail;
+    }
+
+    public void setEnableEmail(boolean enableEmail) {
+        this.enableEmail = enableEmail;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public List<Subscription> getListSubscription() {
         return listSubscription;
@@ -87,8 +101,11 @@ public class LogisticClient {
 
     public void setListSubscription(List<Subscription> listSubscription) {
         this.listSubscription = listSubscription;
-
     }
+
+
+
+
 
 
 }

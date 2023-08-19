@@ -15,19 +15,43 @@ The project was created in JAVA v.17 and initialized using Spring Initializr, wi
 
 > Spring Data JPA with framework Hibernate.
 
-<kbd> Setting </kbd>
+- Setting (Dependency/application properties)
 
-- It is important to configure the Hibernate and SQL dependencies in the application properties:
+<kbd> It is important to configure the Hibernate and SQL dependencies in the application properties:</kbd>
+ 
+      spring.datasource.url=jdbc:mysql://localhost:3306/**name database**
+      spring.datasource.username=root
+      spring.datasource.password=**insert your password**
+      spring.jpa.hibernate.ddl-auto=update
+      spring.jpa.show-sql=true
+
+
+  <kbd> add this dependency to send email:   </kbd>
   
-  > spring.datasource.url=jdbc:mysql://localhost:3306/ **name database**
+      <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency> 
+<kbd> Add this configuration in application properties to enable email</kbd>
 
-  > spring.datasource.username=root
+    spring.mail.host=smtp.gmail.com
+    spring.mail.port=587
+    spring.mail.username=**your email**@gmail.com
+    spring.mail.password=**password on google app**
+    spring.mail.properties.mail.smtp.auth=true
+    spring.mail.properties.mail.smtp.starttls.enable=true
 
-  > spring.datasource.password= **insert your password**
+  <kbd> add this dependency to add modelMapper for DTO:   </kbd>
 
-  > spring.jpa.hibernate.ddl-auto=update
+        <dependency>
+          <groupId>org.modelmapper</groupId>
+          <artifactId>modelmapper</artifactId>
+          <version>2.4.4</version>
+        </dependency>
+  
+    
+ 
 
-  > spring.jpa.show-sql=true
 
 
 -  You can clone the repository from > git clone  https://github.com/DeviceBooking.git
@@ -49,6 +73,7 @@ The application, created for training purposes, aims to monitor the subscription
 -  Some of them work in pairs, meaning that when adding a subscription, it needs to be associated with a device.
 -  When adding a client, subscriptions can be linked to update the subscription table with activation and expiration dates.
 -  It is also possible to update all expired subscriptions by marking them as "EXPIRED".
+-  I've added a notification sending method with a scheduled task.
 
 
 # Future Improvements
