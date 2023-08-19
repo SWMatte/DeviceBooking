@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"duration\": \"annual\",\r\n    \"available\": true,\r\n    \"price\": 150.50,\r\n    \"device\": {\r\n        \"idDevice\": 1\r\n    }\r\n}",
+							"raw": "{\r\n    \"duration\": \"annual\",\r\n    \"available\": true,\r\n    \"price\": 150.50,\r\n    \"device\": {\r\n        \"idDevice\": 1\r\n    },\r\n    \"statusSubscription\": \"ACTIVE\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -180,7 +180,7 @@
 					"response": []
 				},
 				{
-					"name": "GET vehicleExpired",
+					"name": "GET ACTIVE VEHICLE",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -235,6 +235,14 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "VEHICLE BY ID COMPANY",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			]
 		},
@@ -272,7 +280,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Francini SRL\",\r\n    \"cfLogistic\": \"FRFAE\",\r\n    \"listSubscription\": [\r\n        {\r\n            \"idSubscription\": 1\r\n        },\r\n        {\r\n            \"idSubscription\": 2\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"name\": \"SRL\",\r\n    \"cfLogistic\": \"ASDF\",\r\n    \"enableEmail\": true,\r\n    \"email\": \"matteopeiretti1@gmail.com\",\r\n    \"listSubscription\": [\r\n        {\r\n            \"idSubscription\": 2\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -307,6 +315,50 @@
 							"port": "8080",
 							"path": [
 								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ENABLE NOTIFY",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080clientEnableEmail?idLogistic=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080clientEnableEmail",
+							"query": [
+								{
+									"key": "idLogistic",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REMOVE NOTIFY Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:clientDisableEmail?idLogistic=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "clientDisableEmail",
+							"query": [
+								{
+									"key": "idLogistic",
+									"value": "1"
+								}
 							]
 						}
 					},
