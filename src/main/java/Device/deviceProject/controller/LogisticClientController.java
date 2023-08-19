@@ -8,11 +8,7 @@ import Device.deviceProject.service.iServiceClientLogistic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -40,13 +36,16 @@ public class LogisticClientController {
         }
     }
 
-
-    @GetMapping("/clientsendEmail")
-    public void sendEmail(){
-         iServiceClientLogistic.sendEmail();
-
-
+    @PostMapping("/clientEnableEmail")
+    public void clientEnableEmail(@RequestParam("idLogistic") int idLogistic)   {
+        iServiceClientLogistic.enableNotifyEmail(idLogistic);
     }
+    @PostMapping("/clientDisableEmail")
+    public void clientDisableEmail(@RequestParam("idLogistic") int idLogistic)   {
+        iServiceClientLogistic.removeNotifyEmail(idLogistic);
+    }
+
+
 
 
 }

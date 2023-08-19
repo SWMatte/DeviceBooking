@@ -9,6 +9,8 @@ public interface iServiceClientLogistic {
 
  void sendEmail();
 
+ void removeNotifyEmail(int idLogistic);
+ void enableNotifyEmail(int idLogistic);
 
 
 }

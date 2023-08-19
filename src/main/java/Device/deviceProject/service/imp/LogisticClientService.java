@@ -166,4 +166,13 @@ public class LogisticClientService implements iService<LogisticClient>, iService
 
 
     }
+
+    @Override
+    public void removeNotifyEmail(int idLogistic) {
+        logisticClientRepository.updateEnableEmail(false,idLogistic);
+    }
+    @Override
+    public void enableNotifyEmail(int idLogistic) {
+        logisticClientRepository.updateEnableEmail(true,idLogistic);
+    }
 }
